@@ -1,0 +1,24 @@
+{
+  "name": "tcm_server_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ajv": "^6.10.2",
+    "jsonschema": "^1.2.5",
+    "jwk-to-pem": "^2.0.2",
+    "mongodb": "^3.5.0",
+    "mongoose": "^5.8.7",
+    "mongoose-sequence": "^5.2.2",
+    "mongoose-timestamp": "^0.6.0",
+    "restify": "^7.7.0",
+    "restify-cors-middleware": "^1.1.1",
+    "schm": "^0.4.1"
+  }
+}
