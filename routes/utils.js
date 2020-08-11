@@ -12,7 +12,7 @@ exports.readBody = function (schema, req, res) {
                               body = Buffer.concat(body).toString();
                               var validator = require("./validations/validator");
                               var error = validator.validate(validator.schema.project, body);
-                              console.log("------- validator result ---------\n%s", error)
+                              console.log("validation error:\n%s", error)
                             }
               );
 };
