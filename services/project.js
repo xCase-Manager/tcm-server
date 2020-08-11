@@ -1,14 +1,12 @@
 const Project = require('../models/project');
 
-class ProjectService {
-    /****************************
+/****************************
         Project service
-    *****************************/
-
+*****************************/
+class ProjectService {
     /*
-        Project finder service
+        Project find service
     */
-    //Step 1: declare promise
     findProject(projectId) {
         return new Promise((resolve, reject) => {
            console.log("requesting DB for project id: %s", projectId);
@@ -29,13 +27,17 @@ class ProjectService {
         });
     };
 
-    //Step 2: async promise handler
+    /*
+        get a Project
+    */
     async getProject(projectId) {
         console.log("getting project id %s", projectId);
         return await (this.findProject(projectId));
     };
 
-    // Projects finder service
+    /*
+        get a Projects list
+    */
     async getProjects() {
         try {
             return await (  new Promise((resolve, reject) => {
@@ -59,7 +61,9 @@ class ProjectService {
           }    
     };
 
-    // Filtered projects finder service
+    /*
+        get a Projects list filtered
+    */
     async getProjects(filter) {
         try {
             return await (  new Promise((resolve, reject) => {
@@ -88,7 +92,9 @@ class ProjectService {
             }    
     };
 
-    // Project creation
+    /*
+        save a new Project
+    */
     async saveProject(data) {
         try{
             return await ( new Promise((resolve, reject) => {
@@ -112,7 +118,9 @@ class ProjectService {
           }
     };
 
-    // Project update 
+    /*
+        update a Project
+    */
     async update(projectId, data) {
         try{
             return await ( new Promise((resolve, reject) => {
@@ -148,5 +156,4 @@ class ProjectService {
             }
     };
 }
-  
 module.exports = new ProjectService()
