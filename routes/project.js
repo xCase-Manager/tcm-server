@@ -2,8 +2,10 @@ const Project = require('../models/project');
 const projectService = require('../services/project');
 
 module.exports = function(ctx) {
-    const db     = ctx.db,
-    server = ctx.server
+    const db = ctx.db,
+    server = ctx.server;
+    const SUCCESS_MSG = {"message": "%s"};
+    const ERROR_MSG = {"message": "could not process the request"};
   
    server.post('/api/projects', (req, res, next) => {
 
@@ -23,7 +25,7 @@ module.exports = function(ctx) {
         })
         .catch( err => {
             console.log("could not create the project, error: %s", err.errmsg);
-            res.send(400, err.errmsg)
+            res.send(400, ERROR_MSG)
         });
 
     })
@@ -43,8 +45,11 @@ module.exports = function(ctx) {
                     jsonRes = JSON.stringify(dbRes);
                     console.log("response: %s", jsonRes);
                     res.send(200, dbRes);
-                } else
-                    res.send(400, "project id '" + req.params.projectId + "' does not exist")        
+                } else {
+                    console.log("error: project id '" + req.params.projectId + 
+                    "' does not exist");
+                    res.send(400, ERROR_MSG) 
+                }       
             }
         );   
     })
@@ -58,13 +63,13 @@ module.exports = function(ctx) {
             projectService.getProjects(req.query.search).then(function(result) {
                 result
                     ? res.send(200, result)
-                    : res.send(400, "projects requested do not exist")
+                    : res.send(400, ERROR_MSG)
             }); 
         }else{
             projectService.getProjects().then(function(result) {
                 result
                     ? res.send(200, result)
-                    : res.send(400, "projects requested do not exist")
+                    : res.send(400, ERROR_MSG)
             });
         }
     })
@@ -82,24 +87,18 @@ module.exports = function(ctx) {
                     res.send(400, dbErr.errmsg)
                 if (dbRes){
                     if(dbRes.result.n==0)
-                        res.send(400, "project id '"+req.params.projectId+"' does not exist")                   
+                        res.send(400, ERROR_MSG)                   
                     else
-                        res.send(200, "project id '"+req.params.projectId+"' has been succefully deleted")
+                        res.send(200, SUCCESS_MSG,
+                            "project id '" + req.params.projectId + 
+                            "' has been succefully deleted")
                 }           
             }
          )
     })
 
     /**
-     Update 
-       
-     client put:
-     
-        PUT http://localhost:3000/api/projects/AAA13
-        {
-            "name": "project000 01",
-            "description": "project000 01" 
-        }
+     Update project
      */
     server.put('/api/projects/:projectId', (req, res, next) => {
         const data = Object.assign( {}, req.body, {
@@ -111,7 +110,7 @@ module.exports = function(ctx) {
             res.send(200, result._doc);
         })
         .catch( err => {
-            res.send(400, {'error_code': 1, 'error_message': 'could not process the request'})
+            res.send(400, ERROR_MSG)
         });            
     })
 }
