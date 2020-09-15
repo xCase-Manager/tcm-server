@@ -53,12 +53,8 @@ module.exports = function(ctx) {
      * Create
     */
     server.post('/api/projects/:projectId/testcases', (req, res, next) => {
-
-        //check if the project exist
         projectService.getProject(req.params.projectId)
         .then(function(result) {
-
-            console.log(" building the data");
 
             const data = Object.assign( 
                 {}, 
@@ -68,8 +64,6 @@ module.exports = function(ctx) {
                     created: new Date()
                 }
             );
-
-            console.log(" saving data");
 
             testcaseService.saveTestcase(data)
             .then( result => {        
@@ -91,12 +85,9 @@ module.exports = function(ctx) {
      * Update
      */
     server.put('/api/projects/:projectId/testcases/:testcaseId', (req, res, next) => {
-        // extract data from request body and add timestamps
        const data = Object.assign( {}, req.body, {
             lastUpdated: new Date()
         });
-
-        console.log(" saving data");
 
         testcaseService.updateTestcase(req.params.testcaseId, req.params.projectId, data)
         .then( result => {        
