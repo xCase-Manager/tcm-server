@@ -105,10 +105,10 @@ module.exports = function(ctx) {
     server.del('/api/projects/:projectId/testcases/:testcaseId', (req, res, next) => {
         testcaseService.deleteTestcase(req.params.testcaseId, req.params.projectId).then(function(result) {
              ((result.n) && result.n > 0)
-                 ? res.send(200, JSON.parse(stringBuilder.fillTemplate({ content: "testcase id '" 
-                 + req.params.testcaseId + "' for project id '" + req.params.projectId + 
-                 "' is now deleted"})))               
-                : res.send(400, ERROR_MSG)
+                 ? res.send(200)               
+                : res.send(400, JSON.parse(stringBuilder.fillTemplate({ content: "testcase id '" 
+                + req.params.testcaseId + "' for project id '" + req.params.projectId + 
+                "' could not be deleted"})))
           }); 
     })
 }
