@@ -1,10 +1,9 @@
 const testcaseService = require('../services/testcase');
 const projectService = require('../services/project');
-const stringBuilder = require('../utils/stringBuilder');
+const messageBuilder = require('../utils/messageBuilder');
 
 module.exports = function(ctx) {
     server = ctx.server;
-    const SUCCESS_MSG = {"message": "%s"};
     const ERROR_MSG = {"message": "could not process the request"};
 
     /*
@@ -56,7 +55,6 @@ module.exports = function(ctx) {
     server.post('/api/projects/:projectId/testcases', (req, res, next) => {
         projectService.getProject(req.params.projectId)
         .then(function(result) {
-
             const data = Object.assign( 
                 {}, 
                 req.body, 
@@ -75,7 +73,6 @@ module.exports = function(ctx) {
                 req.params.projectId, err.errmsg);
                 res.send(400, ERROR_MSG)
             });
-
          })
         .catch( err => {
             res.send(400, ERROR_MSG);
@@ -106,9 +103,11 @@ module.exports = function(ctx) {
         testcaseService.deleteTestcase(req.params.testcaseId, req.params.projectId).then(function(result) {
              ((result.n) && result.n > 0)
                  ? res.send(200)               
-                : res.send(400, JSON.parse(stringBuilder.fillTemplate({ content: "testcase id '" 
-                + req.params.testcaseId + "' for project id '" + req.params.projectId + 
-                "' could not be deleted"})))
+                : res.send(400, messageBuilder.error(
+                    "testcase id '" + req.params.testcaseId + 
+                    "' for project id '" + req.params.projectId + 
+                    "' could not be deleted")   
+                  )
           }); 
     })
 }
