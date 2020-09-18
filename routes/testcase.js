@@ -9,7 +9,7 @@ module.exports = function(ctx) {
     /*
      * Get testcases list
      */
-    server.get('/api/testcases', (req, res, next) => {
+    server.get('/api/testcases', (res) => {
         testcaseService.getTestcases(null).then(function(result) {
             result
                 ? res.send(200, result)
@@ -20,7 +20,7 @@ module.exports = function(ctx) {
     /*
      * Get testcases list
      */
-    server.get('/api/projects/:projectId/testcases', (req, res, next) => {
+    server.get('/api/projects/:projectId/testcases', (req, res) => {
         if(req.query.search!=undefined){
             testcaseService.getTestcases(req.params.projectId, 
                 req.query.search).then(function(result) {
@@ -40,7 +40,7 @@ module.exports = function(ctx) {
     /*
      * Get a testcase
      */
-    server.get('/api/projects/:projectId/testcases/:testcaseId', (req, res, next) => {
+    server.get('/api/projects/:projectId/testcases/:testcaseId', (req, res) => {
        testcaseService.getTestcase(req.params.testcaseId, 
         req.params.projectId).then(function(result) {
             result
@@ -52,9 +52,9 @@ module.exports = function(ctx) {
     /**
      * Create
     */
-    server.post('/api/projects/:projectId/testcases', (req, res, next) => {
+    server.post('/api/projects/:projectId/testcases', (req, res) => {
         projectService.getProject(req.params.projectId)
-        .then(function(result) {
+        .then(function() {
             const data = Object.assign( 
                 {}, 
                 req.body, 
@@ -82,7 +82,7 @@ module.exports = function(ctx) {
     /**
      * Update
      */
-    server.put('/api/projects/:projectId/testcases/:testcaseId', (req, res, next) => {
+    server.put('/api/projects/:projectId/testcases/:testcaseId', (req, res) => {
        const data = Object.assign( {}, req.body, {
             lastUpdated: new Date()
         });
@@ -92,22 +92,24 @@ module.exports = function(ctx) {
             res.send(200, result._doc);
         })
         .catch( err => {
-            res.send(400, ERROR_MSG)
+            res.send(400,  messageBuilder.error(
+                "testcase id '" + req.params.testcaseId + 
+                "' for project id '" + req.params.projectId + 
+                "' could not be updated"))
         });        
     })
 
     /**
      * Delete
      */
-    server.del('/api/projects/:projectId/testcases/:testcaseId', (req, res, next) => {
+    server.del('/api/projects/:projectId/testcases/:testcaseId', (req, res) => {
         testcaseService.deleteTestcase(req.params.testcaseId, req.params.projectId).then(function(result) {
              ((result.n) && result.n > 0)
                  ? res.send(200)               
                 : res.send(400, messageBuilder.error(
                     "testcase id '" + req.params.testcaseId + 
                     "' for project id '" + req.params.projectId + 
-                    "' could not be deleted")   
-                  )
+                    "' could not be deleted"))
           }); 
     })
 }
