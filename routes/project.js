@@ -1,5 +1,6 @@
 const Project = require('../models/project');
 const projectService = require('../services/project');
+const messageBuilder = require('../utils/messageBuilder');
 
 module.exports = function(ctx) {
     const db = ctx.db,
@@ -22,7 +23,8 @@ module.exports = function(ctx) {
         })
         .catch( err => {
             console.log("could not create the project, error: %s", err.errmsg);
-            res.send(400, messageBuilder.error(ERROR_MSG))
+            res.send(400, messageBuilder.error(
+                "could not create project, this project id might already exist"))
         });
 
     })
