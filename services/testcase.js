@@ -51,10 +51,9 @@ class TestcaseService {
                     { '_id': 0, '__v': 0 }, 
                     function(dbErr, dbRes) {
                         if (dbRes){
-                            //console.log("found response: %s", dbRes);
                             resolve(dbRes);
                         } else{
-                            console.log("not found response: %s", dbErr);
+                            console.log("search error: %s", dbErr);
                             reject(dbErr); 
                         }       
                     }

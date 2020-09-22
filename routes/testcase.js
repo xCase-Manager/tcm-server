@@ -9,12 +9,12 @@ module.exports = function(ctx) {
     /*
      * Get testcases list
      */
-    server.get('/api/testcases', (res) => {
+    server.get('/api/testcases', (req, res) => {
         testcaseService.getTestcases(null).then(function(result) {
             result
                 ? res.send(200, result)
                 : res.send(400, messageBuilder.error(ERROR_MSG))
-        });               
+        });
     })
 
     /*
@@ -22,7 +22,7 @@ module.exports = function(ctx) {
      */
     server.get('/api/projects/:projectId/testcases', (req, res) => {
         if(req.query.search!=undefined){
-            testcaseService.getTestcases(req.params.projectId, 
+            testcaseService.getTestcasesFiltered(req.params.projectId, 
                 req.query.search).then(function(result) {
                 result
                     ? res.send(200, result)

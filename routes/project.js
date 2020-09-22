@@ -34,8 +34,6 @@ module.exports = function(ctx) {
      */
     server.get('/api/projects/:projectId', (req, res, next) => {
 
-        console.log("GET project/id is processing ... ");
-
         db.collection("projects").findOne(
             { "id" : req.params.projectId}, 
             { "fields": { "_id": 0 } },
