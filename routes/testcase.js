@@ -4,7 +4,7 @@ const messageBuilder = require('../utils/messageBuilder');
 
 module.exports = function(ctx) {
     server = ctx.server;
-    const ERROR_MSG = {"message": "could not process the request"};
+    const ERROR_MSG = "could not process the request";
 
     /*
      * Get testcases list
@@ -13,7 +13,7 @@ module.exports = function(ctx) {
         testcaseService.getTestcases(null).then(function(result) {
             result
                 ? res.send(200, result)
-                : res.send(400, ERROR_MSG)
+                : res.send(400, messageBuilder.error(ERROR_MSG))
         });               
     })
 
@@ -26,13 +26,13 @@ module.exports = function(ctx) {
                 req.query.search).then(function(result) {
                 result
                     ? res.send(200, result)
-                    : res.send(400, ERROR_MSG)
+                    : res.send(400, messageBuilder.error(ERROR_MSG))
             }); 
         }else{
             testcaseService.getTestcases(req.params.projectId).then(function(result) {
                 result
                     ? res.send(200, result)
-                    : res.send(400, ERROR_MSG)
+                    : res.send(400, messageBuilder.error(ERROR_MSG))
             });
         }         
     })
@@ -45,7 +45,7 @@ module.exports = function(ctx) {
         req.params.projectId).then(function(result) {
             result
                 ? res.send(200, result)
-                : res.send(400, ERROR_MSG)
+                : res.send(400, messageBuilder.error(ERROR_MSG))
          });     
     })
 
@@ -71,11 +71,11 @@ module.exports = function(ctx) {
             .catch( err => {
                 console.log("could not create the testcase for project id '%s', error: %s", 
                 req.params.projectId, err.errmsg);
-                res.send(400, ERROR_MSG)
+                res.send(400, messageBuilder.error(ERROR_MSG))
             });
          })
         .catch( err => {
-            res.send(400, ERROR_MSG);
+            res.send(400, messageBuilder.error(ERROR_MSG));
         });
     })
 
