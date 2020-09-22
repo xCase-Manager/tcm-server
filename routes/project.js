@@ -4,8 +4,7 @@ const projectService = require('../services/project');
 module.exports = function(ctx) {
     const db = ctx.db,
     server = ctx.server;
-    const SUCCESS_MSG = {"message": "%s"};
-    const ERROR_MSG = {"message": "could not process the request"};
+    const ERROR_MSG = "could not process the request";
   
    server.post('/api/projects', (req, res, next) => {
 
@@ -17,15 +16,13 @@ module.exports = function(ctx) {
             }
         );
 
-        console.log(" saving data");
-
         projectService.saveProject(data)
         .then( result => {        
             res.send(200, result._doc);
         })
         .catch( err => {
             console.log("could not create the project, error: %s", err.errmsg);
-            res.send(400, ERROR_MSG)
+            res.send(400, messageBuilder.error(ERROR_MSG))
         });
 
     })
@@ -48,7 +45,7 @@ module.exports = function(ctx) {
                 } else {
                     console.log("error: project id '" + req.params.projectId + 
                     "' does not exist");
-                    res.send(400, ERROR_MSG) 
+                    res.send(400, messageBuilder.error(ERROR_MSG))
                 }       
             }
         );   
@@ -63,13 +60,13 @@ module.exports = function(ctx) {
             projectService.getProjects(req.query.search).then(function(result) {
                 result
                     ? res.send(200, result)
-                    : res.send(400, ERROR_MSG)
+                    : res.send(400, messageBuilder.error(ERROR_MSG))
             }); 
         }else{
             projectService.getProjects().then(function(result) {
                 result
                     ? res.send(200, result)
-                    : res.send(400, ERROR_MSG)
+                    : res.send(400, messageBuilder.error(ERROR_MSG))
             });
         }
     })
@@ -87,7 +84,7 @@ module.exports = function(ctx) {
                     res.send(400, dbErr.errmsg)
                 if (dbRes){
                     if(dbRes.result.n==0)
-                        res.send(400, ERROR_MSG)                   
+                        res.send(400, messageBuilder.error(ERROR_MSG))                  
                     else
                         res.send(200, SUCCESS_MSG,
                             "project id '" + req.params.projectId + 
@@ -110,7 +107,7 @@ module.exports = function(ctx) {
             res.send(200, result._doc);
         })
         .catch( err => {
-            res.send(400, ERROR_MSG)
+            res.send(400, messageBuilder.error(ERROR_MSG))
         });            
     })
 }
