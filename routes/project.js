@@ -59,7 +59,7 @@ module.exports = function(ctx) {
      */
     server.get('/api/projects', (req, res, next) => {
         
-         if(req.query.search!=undefined){
+        if(req.query.search!=undefined){
             projectService.getProjects(req.query.search).then(function(result) {
                 result
                     ? res.send(200, result)

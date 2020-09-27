@@ -71,8 +71,8 @@ class ProjectService {
             var regex = new RegExp("/" + filter + "/");        
             Project.find({       
                             $or: [
-                                { "name":  { $regex: new RegExp(filter), $options: 'i' } }, 
-                                { "description":  { $regex: new RegExp(filter), $options: 'i' } }
+                                { "name": {$regex: new RegExp(filter), $options: 'i'} }, 
+                                { "description": {$regex: new RegExp(filter), $options: 'i'} }
                             ]
                         },
                         { '_id': 0, '__v': 0 }, 

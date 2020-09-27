@@ -5,61 +5,28 @@ const Testcase = require('../models/testcase');
 *****************************/
 class TestcaseService {
   
-    // Testcases finder service
-    async getTestcases(projectId) {
+    // testcases finder service
+    async getTestcases(projectId, filter='') {
         try {
             return await (  new Promise((resolve, reject) => {
-                console.log("requesting DB for project id '%s'", projectId);
-                    //let testCaseRequest = '{ "_id": 0, "__v": 0 },';
-                    let testCaseRequest = projectId? 
-                                            { "projectId" : projectId}
-                                            : {};
-                    Testcase.find(
-                        testCaseRequest,
-                        { "_id": 0, "__v": 0 }, 
+                Testcase.find({
+                    $and: [
+                        { "projectId" : projectId},
+                            {$or: [
+                                { "name":  { $regex: new RegExp(filter), $options: 'i' } }, 
+                                    { "description":  
+                                        { $regex: new RegExp(filter), $options: 'i' } }
+                                ]}
+                    ]},
+                    { '_id': 0, '__v': 0 }, 
                         function(dbErr, dbRes) {
-                            if (dbRes){
-                                //console.log("found response: %s", dbRes);
+                            if (dbRes)
                                 resolve(dbRes);
-                            } else{
-                                console.log("not found response: %s", dbErr);
+                            else{
+                                console.log("testcase search error : %s", dbErr);
                                 reject(dbErr); 
                             }       
                         }
-                    );
-                })
-            )
-        } catch(e) {
-            console.log("error response: %s", e);
-          }    
-    };
-
-     // Filtered testcases finder service
-     async getTestcasesFiltered(projectId, filter) {
-        try {
-            return await (  new Promise((resolve, reject) => {
-                console.log("requesting DB for project id '%s' filtered by '%s'", projectId, filter); 
-                var regex = new RegExp("/" + filter + "/");
-                    
-                Testcase.find({
-                    $and: [
-                            {  "projectId" : projectId  },
-                            { $or: [
-                                { "title":  { $regex: new RegExp(filter), $options: 'i' } }, 
-                                { "description":  { $regex: new RegExp(filter), $options: 'i' } }
-                                ] 
-                            }
-                        ]
-                    },
-                    { '_id': 0, '__v': 0 }, 
-                    function(dbErr, dbRes) {
-                        if (dbRes){
-                            resolve(dbRes);
-                        } else{
-                            console.log("search error: %s", dbErr);
-                            reject(dbErr); 
-                        }       
-                    }
                 );
             }))
         } catch(e) {
