@@ -92,7 +92,7 @@ module.exports = function(ctx) {
             res.send(200, result._doc);
         })
         .catch( err => {
-            res.send(400,  messageBuilder.error(
+            res.send(400, messageBuilder.error(
                 "testcase id '" + req.params.testcaseId + 
                 "' for project id '" + req.params.projectId + 
                 "' could not be updated"))

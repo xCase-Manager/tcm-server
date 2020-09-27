@@ -2,6 +2,9 @@ const Project = require('../models/project');
 const projectService = require('../services/project');
 const messageBuilder = require('../utils/messageBuilder');
 
+/****************************
+        Project route controller
+*****************************/
 module.exports = function(ctx) {
     const db = ctx.db,
     server = ctx.server;
