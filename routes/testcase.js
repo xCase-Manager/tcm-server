@@ -2,6 +2,9 @@ const testcaseService = require('../services/testcase');
 const projectService = require('../services/project');
 const messageBuilder = require('../utils/messageBuilder');
 
+/****************************
+        Testcase route controller
+*****************************/
 module.exports = function(ctx) {
     server = ctx.server;
     const ERROR_MSG = "could not process the request";
