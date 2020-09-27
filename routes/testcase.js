@@ -7,7 +7,7 @@ module.exports = function(ctx) {
     const ERROR_MSG = "could not process the request";
 
     /*
-     * Get testcases list
+     * Get all testcases list
      */
     server.get('/api/testcases', (req, res) => {
         testcaseService.getTestcases(null).then(function(result) {
@@ -18,7 +18,7 @@ module.exports = function(ctx) {
     })
 
     /*
-     * Get testcases list
+     * Get a project's testcases list
      */
     server.get('/api/projects/:projectId/testcases', (req, res) => {
         if(req.query.search!=undefined){
@@ -38,7 +38,7 @@ module.exports = function(ctx) {
     })
 
     /*
-     * Get a testcase
+     * Get a project's testcase
      */
     server.get('/api/projects/:projectId/testcases/:testcaseId', (req, res) => {
        testcaseService.getTestcase(req.params.testcaseId, 
@@ -50,7 +50,7 @@ module.exports = function(ctx) {
     })
 
     /**
-     * Create
+     * Create a project's testcase
     */
     server.post('/api/projects/:projectId/testcases', (req, res) => {
         projectService.getProject(req.params.projectId)
@@ -80,7 +80,7 @@ module.exports = function(ctx) {
     })
 
     /**
-     * Update
+     * Update a project's testcase
      */
     server.put('/api/projects/:projectId/testcases/:testcaseId', (req, res) => {
        const data = Object.assign( {}, req.body, {
@@ -100,7 +100,7 @@ module.exports = function(ctx) {
     })
 
     /**
-     * Delete
+     * Delete a project's testcase
      */
     server.del('/api/projects/:projectId/testcases/:testcaseId', (req, res) => {
         testcaseService.deleteTestcase(req.params.testcaseId, req.params.projectId).then(function(result) {
