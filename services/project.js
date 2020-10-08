@@ -13,7 +13,7 @@ class ProjectService {
 
            Project.findOne(
             { "id" : projectId},
-            { '_id': 0 }, 
+            { '_id': 0, '__v': 0}, 
             function(dbErr, dbRes) {
                 if (dbRes){
                     console.log("found response: %s", dbRes);
