@@ -37,21 +37,15 @@ module.exports = function(ctx) {
      */
     server.get('/api/projects/:projectId', (req, res, next) => {
 
-        db.collection("projects").findOne(
-            { "id" : req.params.projectId}, 
-            { "fields": { "_id": 0, "__v": 0} },
-            function(dbErr, dbRes) {
-                if (dbRes){
-                    jsonRes = JSON.stringify(dbRes);
-                    console.log("response: %s", jsonRes);
-                    res.send(200, dbRes);
-                } else {
-                    console.log("error: project id '" + req.params.projectId + 
-                    "' does not exist");
-                    res.send(400, messageBuilder.error(ERROR_MSG))
-                }       
+        projectService.findProject(req.params.projectId).then(function(result) {
+            result
+                ? res.send(200, result)
+                : res.send(400, messageBuilder.error(ERROR_MSG))
+        }).catch(
+            err => {
+                res.send(400, messageBuilder.error(ERROR_MSG))
             }
-        );   
+        ); 
     })
 
     /**
