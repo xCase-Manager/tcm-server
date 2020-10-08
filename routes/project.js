@@ -39,7 +39,7 @@ module.exports = function(ctx) {
 
         db.collection("projects").findOne(
             { "id" : req.params.projectId}, 
-            { "fields": { "_id": 0 } },
+            { "fields": { "_id": 0, "__v": 0} },
             function(dbErr, dbRes) {
                 if (dbRes){
                     jsonRes = JSON.stringify(dbRes);

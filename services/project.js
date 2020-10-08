@@ -67,8 +67,7 @@ class ProjectService {
     async getProjects(filter) {
         try {
             return await (  new Promise((resolve, reject) => {
-            console.log("requesting DB for projects filtered by '%s'", filter);
-            var regex = new RegExp("/" + filter + "/");        
+            console.log("requesting DB for projects filtered by '%s'", filter);    
             Project.find({       
                             $or: [
                                 { "name": {$regex: new RegExp(filter), $options: 'i'} }, 
