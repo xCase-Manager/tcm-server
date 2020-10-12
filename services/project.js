@@ -28,14 +28,6 @@ class ProjectService {
     };
 
     /*
-        get a Project
-    */
-    async getProject(projectId) {
-        console.log("getting project id %s", projectId);
-        return await (this.findProject(projectId));
-    };
-
-    /*
         get a Projects list
     */
     async getProjects() {
