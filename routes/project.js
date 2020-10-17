@@ -9,6 +9,9 @@ module.exports = function(ctx) {
   server = ctx.server;
   const ERROR_MSG = "could not process the request";
   
+  /*
+  * create a project
+  */
   server.post('/api/projects', (req, res, next) => {
     const data = Object.assign({}, req.body, 
         { created: new Date()}
