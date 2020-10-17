@@ -48,22 +48,14 @@ module.exports = function(ctx) {
   /**
   * Delete ProjectId
   */
-  server.del('/api/projects/:projectId', (req, res, next) => {
-    db.collection("projects").remove(
-      { "id" : req.params.projectId}, 
-      { "justOne": true },
-      function(dbErr, dbRes) {
-        if (dbErr) res.send(400, dbErr.errmsg)
-        if (dbRes){
-          if(dbRes.result.n==0)
-            res.send(400, messageBuilder.error(ERROR_MSG))                  
-          else
-            res.send(200, SUCCESS_MSG,
-              "project id '" + req.params.projectId + 
-              "' has been succefully deleted")
-        }           
-    })
-   })
+  server.del('/api/projects/:projectId', (req, res) => {
+    projectService.delete(req.params.projectId).then(function(result) {
+      ((result.n) && result.n > 0)
+      ?res.send(200) :res.send(400, messageBuilder.error(
+      "the project id '" + req.params.projectId + 
+      "' could not be deleted"))
+    });
+  })
 
   /**
   * Update project
