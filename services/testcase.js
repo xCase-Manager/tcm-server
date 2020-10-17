@@ -117,7 +117,7 @@ class TestcaseService {
         );
       }));
     } catch(e) {
-      console.log("coud not delete test id '%s' for project id '%s', error:", 
+      console.log("could not delete test id '%s' for project id '%s', error:", 
       testcaseId, projectId, e);}
   };
 }module.exports = new TestcaseService()

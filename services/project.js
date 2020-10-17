@@ -96,9 +96,35 @@ class ProjectService {
               projectId, dbErr);
               reject(dbErr); 
             }});
-      }));} catch(e) {
-        console.log("coud not update test id '%s' for project id '%s', error:", 
+      }))
+    } catch(e) {
+      console.log("could not update test id '%s' for project id '%s', error:", 
         testcaseId, projectId, e);
-      }
-    };
+    }
+  };
+
+  /*
+  * delete project
+  */
+  async delete(projectId) {
+    try {
+      return await ( new Promise((resolve, reject) => {
+        Project.deleteOne(
+          { "id" : projectId}, 
+          function(dbErr, dbRes) {
+            if (dbRes){
+              resolve(dbRes);
+            } else{
+              console.log("could not delete project id '%s', error:", 
+                projectId, dbErr);
+              reject(dbErr); 
+            }
+          }         
+        )
+      }))
+    } catch(e) {
+      console.log("could not delete project id '%s', error:", 
+        projectId, e);
+    }
+  };
 } module.exports = new ProjectService()
