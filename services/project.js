@@ -87,8 +87,11 @@ class ProjectService {
        Project.findOneAndUpdate(
         { "id" : projectId}, data, { new: true },
           function(dbErr, dbRes) {
-            if (dbRes) resolve(dbRes);
-            else{
+            if (dbRes) {
+              delete dbRes._doc._id;
+              delete dbRes._doc.__v;
+              resolve(dbRes);
+            } else{
               console.log("could not update project id '%s', error: %s", 
               projectId, dbErr);
               reject(dbErr); 
