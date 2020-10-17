@@ -47,7 +47,7 @@ module.exports = function(ctx) {
   * Create a project's testcase
   */
   server.post('/api/projects/:projectId/testcases', (req, res) => {
-  projectService.getProject(req.params.projectId)
+  projectService.findProject(req.params.projectId)
     .then(function() {
       const data = Object.assign( {}, req.body, 
       {

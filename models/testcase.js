@@ -5,6 +5,7 @@ const TestcaseSchema = new mongoose.Schema({
     title: String,
     description: String,
     projectId: String,
+    status: Number,
     steps: []
 })
 
