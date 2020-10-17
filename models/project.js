@@ -6,7 +6,7 @@ const ProjectSchema = new mongoose.Schema({
     id: String,
     name: String,
     description: String,
-    state: Number,
+    status: Number,
     icon: String,
     created: Date
 })
