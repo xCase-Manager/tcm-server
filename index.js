@@ -85,3 +85,4 @@ server.listen(config.port, () => {
         require('./routes/testcase')({ db, server})     
     });
 })
+module.exports = server
