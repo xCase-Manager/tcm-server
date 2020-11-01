@@ -4,7 +4,7 @@
   "description": "Test Case Manager Server",
   "main": "index.js",
   "scripts": {
-    "test": "test-scripts/test.js",
+    "test": "./node_modules/.bin/mocha",
     "start": "node index.js"
   },
   "keywords": [],
@@ -20,9 +20,13 @@
     "mongoose-timestamp": "^0.6.0",
     "restify": "^7.7.0",
     "restify-cors-middleware": "^1.1.1",
-    "schm": "^0.4.1"
+    "schm": "^0.4.1",
+    "chai-http": "4.3.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/xCase-Manager/tcm-server.git"
